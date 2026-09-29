@@ -1,13 +1,13 @@
 :root {
-	--tab-active-bg-color: #057;
+	--tab-active-bg-color: #0f0214;
 	--tab-inactive-bg-color: #333;
 	--tab-active-fg-fallback-color: #eee;		/* color of text in an active tab without a container */
 	--tab-inactive-fg-fallback-color: #888;		/* color of text in an inactive tab without a container */
 	--urlbar-focused-bg-color: #41404c;
 	--urlbar-not-focused-bg-color: #1c1b22;
 	--toolbar-bgcolor: #2b2a33 !important;
-	--tab-font: 'DejaVu Sans Mono';
-	--urlbar-font: 'DejaVu Sans Mono';
+	--tab-font: 'Tamzen';
+	--urlbar-font: 'Tamzen';
 
 	/* try increasing if you encounter problems */
 	--navbar-height-setting: 24px;
@@ -75,7 +75,7 @@ toolbar .toolbarbutton-1 { padding: 0 0 !important; }
 	padding-top: 0 !important;
 	padding-bottom: 0 !important;
 	font-family: var(--urlbar-font, 'monospace');
-	font-size: 11px;
+	font-size: 14px;
 }
 
 #urlbar {
@@ -197,7 +197,14 @@ menupopup, panel { &::part(content) { height: auto !important; } }
 
 #TabsToolbar, .tabbrowser-tab {
 	max-height: var(--tab-min-height) !important;
-	font-size: 11px !important;
+	font-size: 15px !important;
+}
+
+#TabsToolbar { padding: 1px 0 2px !important; }
+
+/* Hide the tab bar when only one tab is open */
+#TabsToolbar:has(.tabbrowser-tab:only-of-type) {
+	display: none !important;
 }
 
 /* Change color of normal tabs */
@@ -318,6 +325,15 @@ tab {
 
 /* --- AUTOHIDE NAVBAR ---------------------------------- */
 
+/* Keep a 10px hover target when the single-tab bar is hidden */
+#navigator-toolbox:has(.tabbrowser-tab:only-of-type)::before {
+	content: "";
+	position: fixed;
+	inset: 0 0 auto;
+	height: 10px;
+	z-index: 1;
+}
+
 :root {
 	--uc-navbar-transform: calc(0px - var(--navbar-height-setting));
 }
@@ -371,6 +387,7 @@ tab {
 }
 
 /* Show when toolbox is hovered */
+#navigator-toolbox:has(.tabbrowser-tab:only-of-type):hover > .browser-toolbar,
 #titlebar:hover ~ .browser-toolbar,
 .browser-titlebar:hover ~ :is(#nav-bar, #PersonalToolbar),
 #nav-bar:hover,
@@ -385,6 +402,7 @@ tab {
 	transform: translateY(var(--uc-navbar-transform));
 }
 
+#navigator-toolbox:has(.tabbrowser-tab:only-of-type):hover #urlbar[popover],
 #mainPopupSet:has(> [panelopen]:not(
 	#ask-chat-shortcuts,
 	#selection-shortcut-action-panel,
